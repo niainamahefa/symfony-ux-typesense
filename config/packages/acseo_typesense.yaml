@@ -1,0 +1,46 @@
+# config/packages/acseo_typesense.yml
+acseo_typesense:
+  # Typesense host settings
+  typesense:
+    url: '%env(resolve:TYPESENSE_URL)%'
+    key: '%env(resolve:TYPESENSE_KEY)%'
+    collection_prefix: 'strapi_'                 # Optional : add prefix to all collection
+    #            names in Typesense
+  # Collection settings
+  collections:
+    catalog:                                     # Typesense collection name
+      entity: 'App\Entity\Catalog'              # Doctrine Entity class
+      fields:
+        #
+        # Keeping Database and Typesense synchronized with ids
+        #
+        id:                                # Entity attribute name
+          name: id                       # Typesense attribute name
+          type: primary                  # Attribute type
+        #
+        # Using again id as a sortable field (int32 required)
+        #
+        sortable_id:
+          entity_attribute: id             # Entity attribute name forced
+          name: sortable_id                # Typesense field name
+          type: int32
+        title:
+          name: title
+          type: string
+        date_end:
+          name: date_end
+          type: datetime                    # Object conversion with __toString()
+        is_in_offer:
+          name: is_in_offer
+          type: string                    # Declare field as facet (required to use "group_by" query option)
+          entity_attribute: author.country # Equivalent of $book->getAuthor()->getCountry()
+        brand_name:
+          name: brand_name
+          type: string
+        category_name:
+          name: category_name
+          type: string
+        thumbnail_url:
+          name: thumbnail_url
+          type: string
+      default_sorting_field: sortable_id       # Default sorting field. Must be int32 or float

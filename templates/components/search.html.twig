@@ -1,0 +1,17 @@
+<div {{ attributes }} class="m-4">
+    <input type="search" data-model="query">
+    {% if this.data|length > 0 %}
+        <div data-loading="addClass(opacity-50)" class="grid">
+                {% for item in this.data %}
+                    <div>
+                        <img class="fit-picture"
+                        src="https://dash.rodzafer.re{{ item.document.thumbnail_url }}"
+                        alt="{{ item.document.title }}">
+                        <small>Catalogue: {{ item.document.title }}</small>
+                    </div>
+                {% endfor %}
+        </div>
+    {% else %}
+        <div>Désolé! Aucun résultat trouvé pour "{{ query }}"</div>
+    {% endif %}
+</div>
